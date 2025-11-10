@@ -11,6 +11,15 @@ steps:
     addToPath: true
 
 - script: |
+    pip install -r requirements.txt
+  displayName: 'Install Dependencies'
+
+- script: |
+    echo "Running Tests"
+    pytest --cor
+  displayName: 'Run Tests'
+
+- script: |
     echo "Building the Python application"
     python -m compileall .
   displayName: 'Build Python App'
