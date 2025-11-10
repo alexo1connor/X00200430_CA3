@@ -17,7 +17,7 @@ steps:
 
 - script: |
     echo "Running Tests"
-    pytest --cor
+    pytest --cov
   displayName: 'Run Tests'
 
 - script: |
