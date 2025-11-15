@@ -36,6 +36,7 @@ steps:
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)/pylint_report.txt
     artifactName: CodeAnalysisReport
+  displayName: 'Publish Code Analysis Report'
 
 - script: |
     python -m compileall .
