@@ -13,17 +13,31 @@ steps:
 
 
 - script: |
-    echo "Installing Dependencies"
     pip install -r requirements.txt
   displayName: 'Install Dependencies'
 
 - script: |
-    echo "Running Tests"
-    pytest --cov --cov-fail-under=80
+    pytest --cov=./ --cov-report=xml --cov-report=html --cov-fail-under=80
   displayName: 'Run Tests'
 
+- task: PublishCodeCoverageResults@2
+  displayName: 'Publish Code Coverage Reports'
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/htmlcov'
+
 - script: |
-    echo "Building the Python application"
+    pylint src --output-format=text >> pylint_report.txt
+    cat pylint_report.txt
+  displayName: 'Run Code Analysis Report'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(System.DefaultWorkingDirectory)/pylint_report.txt
+    artifactName: CodeAnalysisReport
+
+- script: |
     python -m compileall .
   displayName: 'Build Python App'
 
@@ -31,6 +45,7 @@ steps:
   inputs:
     contents: '**/*.py'
     targetFolder: '$(build.artifactStagingDirectory)'
+
 
 - task: PublishBuildArtifacts@1
   inputs:

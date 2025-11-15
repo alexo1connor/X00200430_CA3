@@ -2,3 +2,6 @@ __pycache__/
 venv/
 .coverage
 .pytest_cache/
+htmlcov/
+coverage.xml
+pylint_report.txt
