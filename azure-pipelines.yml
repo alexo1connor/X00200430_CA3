@@ -61,7 +61,7 @@ stages:
   
 - stage: Deploy_and_Test_Staging
   displayName: 'Deploy and Test in Staging'
-  dependsOn: Build_and_Test
+  dependsOn: Build
   jobs:
   - deployment: DeployToStaging
     displayName: 'Deploy to Staging Environment'
