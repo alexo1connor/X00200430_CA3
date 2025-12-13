@@ -162,7 +162,7 @@ stages:
   jobs:
   - deployment: DeployToLive
     displayName: 'Deploy to Live'
-    environment: 'Live'
+    environment: 'Prod'
     strategy:
       runOnce:
         deploy:
