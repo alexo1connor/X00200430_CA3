@@ -78,6 +78,7 @@ stages:
         additionalArguments: >
           --disableCentral
           --disableOssIndex
+          --disableNvd
 
 
 - stage: DeployStaging
