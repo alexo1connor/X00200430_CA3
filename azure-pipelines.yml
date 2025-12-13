@@ -61,48 +61,48 @@ stages:
         artifactName: 'drop'
   
 
-        
-# - stage: SecurityChecks
-#   displayName: 'Security Scanning'
-#   jobs:
-#   - job: SecurityChecks
-#     steps:
 
-#     - checkout: self
-#       fetchDepth: 0
+- stage: SecurityChecks
+  displayName: 'Security Scanning'
+  jobs:
+  - job: SecurityChecks
+    steps:
+
+    - checkout: self
+      fetchDepth: 0
     
-#     - task: Gitleaks@3
-#       displayName: 'Gitleaks secret scan (CredScan replacement)'
-#       inputs:
-#         scanlocation: '$(Build.SourcesDirectory)'
-#         configtype: 'predefined'
-#         predefinedconfigfile: 'GitleaksUdmCombo.toml'
-#         scanmode: 'smart'
-#         taskfail: false
-#         taskfailonexecutionerror: true 
-#         reportformat: 'sarif'
-#         uploadresults: true
-#         reportartifactname: 'CodeAnalysisLogs'
-#         redact: true
-#         verbose: false
+    - task: Gitleaks@3
+      displayName: 'Gitleaks secret scan (CredScan replacement)'
+      inputs:
+        scanlocation: '$(Build.SourcesDirectory)'
+        configtype: 'predefined'
+        predefinedconfigfile: 'GitleaksUdmCombo.toml'
+        scanmode: 'smart'
+        taskfail: false
+        taskfailonexecutionerror: true 
+        reportformat: 'sarif'
+        uploadresults: true
+        reportartifactname: 'CodeAnalysisLogs'
+        redact: true
+        verbose: false
 
-#     - task: dependency-check-build-task@6
-#       inputs:
-#           projectName: '$(Build.Repository.Name)'
-#           scanPath: '$(System.DefaultWorkingDirectory)/requirements.txt'
-#           format: 'HTML'
-#           uploadReports: true
-#           uploadSARIFReport: true
-#           # failOnCVSS: '7'
-#           nvdApiKey: '0a6f948c-d4df-4056-a680-12a8035f9486'
-#           additionalArguments: >
-#             --disableCentral
-#             --disableOssIndex
+    - task: dependency-check-build-task@6
+      inputs:
+          projectName: '$(Build.Repository.Name)'
+          scanPath: '$(System.DefaultWorkingDirectory)/requirements.txt'
+          format: 'HTML'
+          uploadReports: true
+          uploadSARIFReport: true
+          # failOnCVSS: '7'
+          nvdApiKey: '0a6f948c-d4df-4056-a680-12a8035f9486'
+          additionalArguments: >
+            --disableCentral
+            --disableOssIndex
 
 
 - stage: DeployStaging
   displayName: 'Deploy to Staging'
-  dependsOn: Build
+  dependsOn: SecurityChecks
   jobs:
   - deployment: DeployToStaging
     displayName: 'Deploy to Staging Environment for Advanced Testing'
