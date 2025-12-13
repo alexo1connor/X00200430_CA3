@@ -65,6 +65,25 @@ stages:
   jobs:
   - job: SecurityChecks
     steps:
+
+    - checkout: self
+      fetchDepth: 0
+    
+    - task: Gitleaks@3
+      displayName: 'Gitleaks secret scan (CredScan replacement)'
+      inputs:
+        scanlocation: '$(Build.SourcesDirectory)'
+        configtype: 'predefined'
+        predefinedconfigfile: 'GitleaksUdmCombo.toml'
+        scanmode: 'smart'
+        taskfail: false
+        taskfailonexecutionerror: true 
+        reportformat: 'sarif'
+        uploadresults: true
+        reportartifactname: 'CodeAnalysisLogs'
+        redact: true
+        verbose: false
+
     - task: dependency-check-build-task@6
       inputs:
           projectName: '$(Build.Repository.Name)'
