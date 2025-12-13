@@ -82,7 +82,7 @@ stages:
         taskfailonexecutionerror: true 
         reportformat: 'sarif'
         uploadresults: true
-        reportartifactname: 'CodeAnalysisLogs'
+        reportartifactname: 'GitleaksReport'
         redact: true
         verbose: false
 
