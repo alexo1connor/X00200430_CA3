@@ -119,8 +119,10 @@ stages:
 
           - script: |
               cd $(Pipeline.Workspace)/drop
-              pip install -r requirements.txt
-              pip install --upgrade locust selenium
+              python -m pip install --upgrade pip
+              python -m pip install -r requirements.txt
+              python -m pip install --upgrade locust selenium
+              python -m pip install zope.event zope.interface
               gunicorn -w 1 -b 0.0.0.0:5000 app:app &
               sleep 5
             displayName: 'Start Web Server'
@@ -138,7 +140,7 @@ stages:
 
           - script: |
               cd $(Pipeline.Workspace)/drop
-              python -m locust -f tests/locustfile.py --headless -u 10 -r 2 --run-time 30s --csv locust_report            displayName: 'Run Performance Tests'
+              python -m locust -f tests/locustfile.py --headless -u 10 -r 2 --run-time 30s --csv locust_report
             displayName: 'Run Performance Tests'  
         
           - task: PublishPipelineArtifact@1
