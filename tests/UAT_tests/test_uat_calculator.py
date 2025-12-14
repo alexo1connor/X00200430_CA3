@@ -1,4 +1,3 @@
-# tests/test_uat_calculator.py
 
 import unittest
 from selenium import webdriver
