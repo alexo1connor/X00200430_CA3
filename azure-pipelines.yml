@@ -85,6 +85,7 @@ stages:
         redact: true
         verbose: false
 
+        
     - task: dependency-check-build-task@6
       displayName: 'OWASP Dependency Check' 
       inputs:
