@@ -183,6 +183,8 @@ For locust to run it downloads a dependency called pywin32. Th issue is the azur
     pywin32==311; sys_platform ==  'win32'
     
 Adding this to requirements ensures you can test the project locally but it also works in the azure pipeline.
+![Screenshot requirements](/images/Requirements.png)
+
 
 ## All Selenium or Locust Tests fail
 If all the Selenium or Locust tests fail its probably one of two reasons.
