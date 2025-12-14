@@ -92,11 +92,15 @@ It gets triggered by a push to the main or development branch.
 
 8. The files are then copied and added to azure as an artefact.
 
+![Screenshot build stage](/images/Build.png)
+
 ## **Security Checks Stage**
 
  1. First the pipeline will checkout the repo.
  2. Gitleaks secret scan - Gitleaks runs and checks the repo for any keys or credentials that may cause a security risk. It creates a report and publishes it as an artefact on Azure.
  3. OWASP Dependency Check - This task scans the dependencies of the project for any security issues. It uses a NVD API Key for keeping the database of dependencies up to date.
+
+![Screenshot security checks stage](/images/Security_Tests.png)
 
 ## **Deploy to Staging Stage**
 
@@ -108,7 +112,10 @@ It gets triggered by a push to the main or development branch.
  6. Run Performance Tests - Another script runs which goes to the directory again and activates the venv. It then runs the performance tests using locust.
  7. Publish Performance Report - The report gets published to Azure.
 
-## **Deploy Live Stage**
+![Screenshot deploy staging stage](/images/Deploy_Staging.png)
+
+
+## **Deploy Production Stage**
 This stage only runs if the pipeline was trigger on the main branch.
 It does so using the code below:
 
@@ -118,6 +125,8 @@ This checks if the branch name is "main".
 
  1. If the branch is main, it downloads the build artefact from the build stage
  2. Deploy Production Web Server - It then runs a script to download the requirements and deploy the web app simulating a live production environment. 
+
+![Screenshot deploy live stage](/images/Deploy_Live.png)
 
  
 ## Branch Policies and Protection
@@ -149,8 +158,20 @@ I use Pytest for for running the unit tests.
 
  I use Selenium for the UAT testing. There is a UAT folder in the tests folder that contains the Selenium tests. All tests need to pass for the pipeline to continue.
 
+![Screenshot uats tests](/images/UAT_Tests.png)
+
+
 ### Performance Testing
 I use locust for performance testing. There is a locust file in the tests folder. Its a relatively simple setup for performance testing since there is only one route for the application, and one form that can run all the calculator's functions. 
+
+![Screenshot performance tests](/images/Locust_Tests.png)
+
+### Security Testing
+I used Gitleaks for checking if there are any key or credentials in the repo.
+I use OWASP to scan and check the dependencies of the project for any security risks.
+
+![Screenshot securit tests](/images/Security_Tests.png)
+
 
 # Flask
 There is an app.py file in the route of the project which creates the route for the web app. It links the calculator function with a HTML template in the templates folder. This template maps all the fields and creates a form that the user can submit calculations to. On submit it posts to the route created in the app.py file. This file then run the correct calculator function and returns the result to be displayed on the page.
@@ -174,9 +195,13 @@ While testing I noticed an issue where pip installing modules from the requireme
 
      python3 -m venv venv # Creates virtual enviorement
      source venv/bin/activate # Activates the virtual enviorement
+
+![Screenshot venv created](/images/VENV_Created.png)
+
 Its important that the venv is activated or modules wont be installed to it and modules installed to it wont be accessible to the script without the venv running.
 
- 
+ ![Screenshot venv used](/images/VENV_Used.png)
+
 
 
 
