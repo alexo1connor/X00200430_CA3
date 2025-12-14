@@ -14,7 +14,7 @@ This project is a simple python calculator function using a Continuous Integrati
 - Flask - Used to create the web app
 - Selenium - Used for UAT Testing
 - Locust - Used for Performance Testing
-- Gitleaks - Used for find sensitive information in commits
+- Gitleaks - Used to find sensitive information in commits
 - OWASP - Checks the dependencies of the project
 
   
@@ -61,18 +61,18 @@ This project is a simple python calculator function using a Continuous Integrati
 
  
 
-## CI Pipeline Implementation
-The CI pipeline is run by Azure and uses the azure-pipelines.yml file.
+## Pipeline Implementation
+The pipeline is run by Azure and uses the azure-pipelines.yml file.
 
 It gets triggered by a push to the main or development branch.
 
   The pipeline is broken up into four stages.
   
 
- 1. Build -  Builds the application, runs unit tests and checks code coverage. Creates and analysis of the code.
- 2. Security Checks - Scans the repo for credential leaks or decency security issues.
+ 1. Build -  Builds the application, runs unit tests, checks code coverage, and analysis of the code.
+ 2. Security Checks - Scans the repo for credential leaks or dependecy security issues.
  3. Deploy Staging - The application is run in a staging environment. UAT and performance tests are then run on it.
- 4. Deploy Live - The branch running the pipeline is the main branch this stage will run and push the application to the live environment. 
+ 4. Deploy Live - If the branch running the pipeline is the main branch this stage will run and push the application to the live environment. 
 
 
 ## **Build Stage**
@@ -116,7 +116,7 @@ It gets triggered by a push to the main or development branch.
 
 
 ## **Deploy Production Stage**
-This stage only runs if the pipeline was trigger on the main branch.
+This stage only runs if the pipeline was triggered on the main branch.
 It does so using the code below:
 
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
@@ -140,7 +140,7 @@ The main branch is protected by rules setup on GitHub.
 2. CI Pass - The CI pipeline on Azure needs to pass before merging.
 
 3. Review Required - The PR needs to be reviewed before it can be approved. (Since there isn't some else working on this project I have to skip this rule)
-4. Deploying to the production environment requires approval
+4. Production Approval - Deploying to the production environment requires approval
 
   
 
@@ -174,11 +174,11 @@ I use OWASP to scan and check the dependencies of the project for any security r
 
 
 # Flask
-There is an app.py file in the route of the project which creates the route for the web app. It links the calculator function with a HTML template in the templates folder. This template maps all the fields and creates a form that the user can submit calculations to. On submit it posts to the route created in the app.py file. This file then run the correct calculator function and returns the result to be displayed on the page.
+There is an app.py file in the root of the project which creates the route for the web app. It links the calculator function with a HTML template in the templates folder. This template maps all the fields and creates a form that the user can submit calculations to. On submit it posts to the route created in the app.py file. This file then run the correct calculator function and returns the result to be displayed on the page.
 
 # Troubleshooting and Extra Points
 ## Pywin32
-For locust to run it downloads a dependency called pywin32. Th issue is the azure pipeline runs in ubuntu and does not support this module. The solution is to edit the module line in the requirements.txt file to only be included on windows. This can be achieved using the code below.
+For locust to run it downloads a dependency called pywin32. The issue is the azure pipeline runs in ubuntu and does not support this module. The solution is to edit the module line in the requirements.txt file to only be included on windows. This can be achieved using the code below.
 
     pywin32==311; sys_platform ==  'win32'
     
@@ -189,7 +189,7 @@ Adding this to requirements ensures you can test the project locally but it also
 ## All Selenium or Locust Tests fail
 If all the Selenium or Locust tests fail its probably one of two reasons.
 
- 1. The application isn't running. Unlike unit tests these two tests require the application to be running. In a separate terminal run `flask run`. The in a different terminal run the tests.
+ 1. The application isn't running. Unlike unit tests these two tests require the application to be running. In a separate terminal run `flask run`. The in a different terminal then run the tests.
  2. The application is running on a different address to the one Selenium and Locust is looking for. The application should be running on `localhost:5000 or 127.0.0.1:5000`. You can force flask to run on a specific host and port with this ` flask run -h localhost -p 5000`
 
 ## Locust Test wont run in pipeline
