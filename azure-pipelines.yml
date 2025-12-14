@@ -87,6 +87,7 @@ stages:
         verbose: false
 
     - task: dependency-check-build-task@6
+      displayName: 'OWASP Dependency Check' 
       inputs:
           projectName: '$(Build.Repository.Name)'
           scanPath: '$(System.DefaultWorkingDirectory)/requirements.txt'

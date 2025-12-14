@@ -4,7 +4,6 @@ from src.calculator import add, subtract, multiply, divide
 
 app = Flask(__name__)
 
-# Map the string name from the HTML form to the actual Python function
 OPERATIONS = {
     'add': add,
     'subtract': subtract,
