@@ -157,13 +157,13 @@ stages:
             displayName: 'Publish Performance Report'
 
 
-- stage: DeployLive
-  displayName: 'Deploy to Live'
+- stage: DeployProduction
+  displayName: 'Deploy to Production'
   dependsOn: DeployStaging 
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   jobs:
-  - deployment: DeployToLive
-    displayName: 'Deploy to Live'
+  - deployment: DeployToProduction
+    displayName: 'Deploy to Production'
     environment: 'Prod'
     strategy:
       runOnce:
